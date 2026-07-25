@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Environments
+.env
+.venv/
+venv/
+env/
+
+# Local experiment data and artifacts
+data/
+color/
+raw_datasets/
+model_save/
+checkpoints/
+weights/
+outputs/
+results/
+logs/
+
+# Large model artifacts
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.safetensors
+
+# Dataset/media files
+*.jpg
+*.jpeg
+*.png
+*.bmp
+*.tif
+*.tiff
+*.webp
+
+# Result exports
+*.csv
+*.xlsx
+*.xls
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
