@@ -20,8 +20,6 @@ logs, result CSVs, and generated figures are intentionally excluded.
 - `utils/`: binary dataloader, metrics, plots, and training loop.
 - `run.sh`: four field-like classes with the proposal loop.
 - `run_a.sh`: explicit ablation set over the selected class list.
-- `scripts/verify_integrity.py`: upload-package integrity checks.
-- `scripts/make_checksums.py`: SHA256 checksum generation.
 
 ## Dataset Layout
 
@@ -153,16 +151,3 @@ mildew tasks, while the PlantVillage-like tasks were often already near
 ceiling. Domain-transform variants were useful as auxiliary analysis,
 especially for loss/confidence behavior, but A5 remained the cleaner main
 model.
-
-## Integrity Check
-
-Before uploading or committing:
-
-```bash
-python scripts/verify_integrity.py
-python scripts/make_checksums.py
-```
-
-The integrity check verifies that no data folders, checkpoint files, media
-files, logs, results, symlinks, or oversized files are present in the upload
-package. It also syntax-checks all Python files without writing bytecode.
