@@ -107,15 +107,52 @@ ABLATIONS=A5,DT,A5DT bash run_a.sh
 - Metrics and plots are saved under `results/`; weights are saved under
   `model_save/`. Both are ignored by Git.
 
-## Reported Local Trend
+## Reported Local Results
 
-On the local 14-class experiment set, A5 was the main proposal variant. It was
-especially useful on field-like downy/powdery mildew classes, while controlled
-PlantVillage-like classes were already near ceiling. Domain transform variants
-were useful as auxiliary analysis, but A5 remained the cleaner main model.
+The local experiment set covered 14 binary disease tasks: four field-like
+mildew tasks (`downy_mildew`, `powdery_mildew`, `sim_downy_mildew`,
+`sim_powdery_mildew`) and ten PlantVillage-derived tasks across cherry, apple,
+corn, grape, potato, and tomato. A5 was the main proposal variant.
 
-These numbers are local experimental results and are not bundled with this
-upload package. Re-run the scripts with the same dataset layout to reproduce.
+The raw result CSV files are not bundled with this source-code release. The
+summary below is included only to document the local experimental trend; re-run
+the scripts with the same dataset layout to reproduce the numbers.
+
+### Overall Mean, 14 Tasks
+
+| Model | Accuracy | Loss | F1 score | AUROC |
+|---|---:|---:|---:|---:|
+| EfficientNetV2 baseline | 0.9158 | 0.2418 | 0.9114 | 0.9508 |
+| A5 P-SPGA | 0.9407 | 0.1554 | 0.9407 | 0.9714 |
+| DT domain transform | 0.9398 | 0.1430 | 0.9394 | 0.9703 |
+
+### Overall Mean, Excluding Cherry Baseline Collapse
+
+One cherry baseline run collapsed in the local logs, so the table below reports
+the same aggregation with the cherry task excluded.
+
+| Model | Accuracy | Loss | F1 score | AUROC |
+|---|---:|---:|---:|---:|
+| EfficientNetV2 baseline | 0.9288 | 0.1688 | 0.9296 | 0.9661 |
+| A5 P-SPGA | 0.9369 | 0.1649 | 0.9369 | 0.9693 |
+| DT domain transform | 0.9358 | 0.1520 | 0.9353 | 0.9681 |
+
+### Domain Split, Excluding Cherry
+
+| Domain | Model | Accuracy | Loss | F1 score | AUROC |
+|---|---|---:|---:|---:|---:|
+| Field-like mildew | EfficientNetV2 baseline | 0.8260 | 0.4312 | 0.8249 | 0.8976 |
+| Field-like mildew | A5 P-SPGA | 0.8399 | 0.4372 | 0.8391 | 0.9065 |
+| Field-like mildew | DT domain transform | 0.8356 | 0.3922 | 0.8346 | 0.9039 |
+| PlantVillage-like | EfficientNetV2 baseline | 0.9744 | 0.0521 | 0.9761 | 0.9966 |
+| PlantVillage-like | A5 P-SPGA | 0.9801 | 0.0439 | 0.9803 | 0.9972 |
+| PlantVillage-like | DT domain transform | 0.9803 | 0.0452 | 0.9801 | 0.9966 |
+
+In these local experiments, A5 showed the clearest value on the field-like
+mildew tasks, while the PlantVillage-like tasks were often already near
+ceiling. Domain-transform variants were useful as auxiliary analysis,
+especially for loss/confidence behavior, but A5 remained the cleaner main
+model.
 
 ## Integrity Check
 
@@ -128,5 +165,4 @@ python scripts/make_checksums.py
 
 The integrity check verifies that no data folders, checkpoint files, media
 files, logs, results, symlinks, or oversized files are present in the upload
-package. It also syntax-checks all Python files with `py_compile`.
-
+package. It also syntax-checks all Python files without writing bytecode.
