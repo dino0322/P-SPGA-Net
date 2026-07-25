@@ -42,7 +42,7 @@ extensions are `.jpg`, `.jpeg`, `.png`, `.bmp`, `.tif`, and `.tiff`.
 You can override the data location:
 
 ```bash
-DATA_ROOT=/path/to/data bash run_a.sh
+DATA_ROOT=./custom_data bash run_a.sh
 ```
 
 ## Quick Start

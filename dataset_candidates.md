@@ -1,7 +1,7 @@
 # Plant Disease / Pest Dataset Candidates
 
 Created: 2026-06-23
-Purpose: candidate datasets for follow-up disease/pest experiments. Do not use symlinks when importing. Copy actual image files into `/home/son/egg/data/{class_name}/normal|abnormal` or a separate raw dataset root.
+Purpose: candidate datasets for follow-up disease/pest experiments. Do not use symlinks when importing. Copy actual image files into `./data/{class_name}/normal|abnormal` or a separate relative raw dataset root.
 
 ## Priority A: useful for current binary/class-wise disease protocol
 
@@ -105,8 +105,8 @@ Purpose: candidate datasets for follow-up disease/pest experiments. Do not use s
    - there are zero symlinks unless intentionally allowed.
    - at least one sample per split passes `cv2.imread`.
 4. Keep raw downloads separate from experiment-ready data:
-   - raw: `/home/son/egg/raw_datasets/{dataset_name}`
-   - prepared: `/home/son/egg/data/{class_name}/normal|abnormal`
+   - raw: `./raw_datasets/{dataset_name}`
+   - prepared: `./data/{class_name}/normal|abnormal`
 5. Kaggle sources may require API token/login; do not attempt download without user confirmation.
 
 ## Suggested next import order
