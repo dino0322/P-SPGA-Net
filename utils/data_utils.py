@@ -174,7 +174,6 @@ def roc_plot(y_test, y_prob, model_name, class_name, fold_num, n_classes=None):
     if not roc_defined:
         plt.text(0.5, 0.5, 'ROC undefined: only one class in y_true', ha='center', va='center')
     else:
-        #y_test_oh = to_categorical(y_test, num_classes=2)
         y_test_oh = label_binarize(y_test, classes=[0, 1])
         y_test_oh = np.concatenate([1 - y_test_oh, y_test_oh], axis=1)
 

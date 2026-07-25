@@ -10,7 +10,7 @@ from zoneinfo import ZoneInfo
 from utils.data_utils import save_csv, plot_confusion_matrix, roc_plot
 
 # =========================
-# 1️⃣ 한 epoch 학습
+# Single-epoch training
 # =========================
 def train_one_epoch(model, dataloader, optimizer, criterion, device):
     model.train()
@@ -35,7 +35,7 @@ def train_one_epoch(model, dataloader, optimizer, criterion, device):
 
 
 # =========================
-# 2️⃣ 평가 함수 (val/test 공용)
+# Shared validation/test evaluation
 # =========================
 def evaluate_model(model, dataloader, criterion, device):
     model.eval()
@@ -58,7 +58,7 @@ def evaluate_model(model, dataloader, criterion, device):
             all_labels.extend(y_batch.cpu().numpy())
             all_preds.extend(preds.cpu().numpy())
             all_probs.extend(probs.cpu().numpy())
-            all_losses.extend([loss.item()] * X_batch.size(0))  # batch loss 기록
+            all_losses.extend([loss.item()] * X_batch.size(0))  # Store batch loss per sample.
 
     avg_loss = total_loss / total_samples
     avg_acc = total_correct / total_samples
@@ -68,7 +68,7 @@ def evaluate_model(model, dataloader, criterion, device):
 
 
 # =========================
-# 3️⃣ Bootstrap CI 계산
+# Bootstrap confidence intervals
 # =========================
 def bootstrap_ci(metric_fn, y_true, y_pred, probs=None, n_bootstrap=1000, alpha=0.95):
     rng = np.random.default_rng()
@@ -112,11 +112,8 @@ def bootstrap_ci_loss(values, n_bootstrap=1000, alpha=0.95):
     upper = np.percentile(means, (1 - (1 - alpha) / 2) * 100)
     return [np.mean(means), lower, upper]
 
-from sklearn.metrics import f1_score
-
-
 # =========================
-# ℹ️ 딥러닝 가속기 설정
+# Device selection
 # =========================
 def get_device(prefer='auto'):
     if prefer == 'cuda' and torch.cuda.is_available():
@@ -132,7 +129,7 @@ def get_device(prefer='auto'):
 
 
 # =========================
-# 4️⃣ 전체 학습/평가 루프
+# Full training/evaluation loop
 # =========================
 def train_full_loop(train_loader, val_loader, test_loader, model_dicts, class_name, fold_num,
                     lr=1e-4, epochs=50, patience=10, device='auto'):
@@ -167,7 +164,7 @@ def train_full_loop(train_loader, val_loader, test_loader, model_dicts, class_na
         patience_counter = 0
 
         # -----------------------------
-        # 학습
+        # Training
         # -----------------------------
         if training_needed:
             for epoch in range(epochs):
@@ -192,9 +189,8 @@ def train_full_loop(train_loader, val_loader, test_loader, model_dicts, class_na
                     break
 
         # -----------------------------
-        # 테스트 평가
+        # Test evaluation
         # -----------------------------
-        #model.load_state_dict(torch.load(save_path, map_location=device))
         if os.path.exists(save_path):
             model.load_state_dict(torch.load(save_path, map_location=device))
         else: 
@@ -217,7 +213,7 @@ def train_full_loop(train_loader, val_loader, test_loader, model_dicts, class_na
             test_auc_ci = bootstrap_ci(lambda y, p: roc_auc_score(y, p), y_true, y_pred, probs=y_prob)
 
         # -----------------------------
-        # 결과 저장
+        # Save results
         # -----------------------------
         now = datetime.datetime.now(ZoneInfo("Asia/Seoul"))
         save_csv(f'{model_name}_{fold_num}', test_acc_ci, test_loss_ci, test_recall_ci, 
