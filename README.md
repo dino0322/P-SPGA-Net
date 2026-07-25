@@ -88,6 +88,12 @@ python -u main_ablation.py \
 | `DT` | `DT_pspga_domain_blur` | A5 with stronger Y-channel domain blur |
 | `A5DT` | `A5_DTL_chunk_full_s01_domain_blur_k3_s04` | A5 with light Y-channel domain blur |
 
+In the reported experiments, the statistical prior and learnable spatial
+attention are fused with a fixed alpha value when the model is called from the
+training loop. Epoch-aware progressive alpha scheduling is intentionally left
+as follow-up work so the released code stays aligned with the reported local
+results.
+
 `run_a.sh` defaults to `B0,A0,A1,A2,A3,A5`. Override it with:
 
 ```bash
