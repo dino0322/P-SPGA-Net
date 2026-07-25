@@ -30,14 +30,14 @@ def get_args():
         dest='ablation',
         type=str,
         default='B0,A0,A1,A2,A3,A5',
-        help='ablation codes to run. example: B0,A0,A1,A2,A3,A5,M3,DT,A5DT',
+        help='ablation codes to run. example: B0,A0,A1,A2,A3,A5,DT,A5DT',
     )
     return parser.parse_args()
 
 
 def parse_ablation_codes(value):
     codes = [code.strip().upper() for code in value.replace(';', ',').split(',') if code.strip()]
-    valid_codes = {'B0', 'A0', 'A1', 'A2', 'A3', 'A4', 'A5', 'M3', 'DT', 'A5DT'}
+    valid_codes = {'B0', 'A0', 'A1', 'A2', 'A3', 'A4', 'A5', 'DT', 'A5DT'}
     unknown = [code for code in codes if code not in valid_codes]
     if unknown:
         raise ValueError(f'Unknown ablation code(s): {unknown}. Valid codes: {sorted(valid_codes)}')
@@ -46,7 +46,6 @@ def parse_ablation_codes(value):
 from utils.data_utils import load_image_paths, make_image_loader
 from utils.train_loop import train_full_loop
 from models.efficientnetv2_P1 import EfficientNetV2ForImageClassification, EfficientNetV2ForImageClassification_v3
-from models.efficientnetv2_m3 import EfficientNetV2PSPGA_AttnPool
 
 import datetime
 from zoneinfo import ZoneInfo
@@ -115,9 +114,6 @@ for i, (train_index, test_index) in enumerate(kf.split(image_paths, y), start=1)
             use_branch=True, branch_type='chunk', use_stat_gate=True, use_prior_map=True,
             use_learnable_attention=True, use_progressive_fusion=True,
             residual_scale=0.1,
-        )),
-        'M3': lambda: ('M3_pspga_attnpool', EfficientNetV2PSPGA_AttnPool(
-            num_labels=2, hidden_dim=512, model_variant='s'
         )),
         'DT': lambda: ('DT_pspga_domain_blur', EfficientNetV2ForImageClassification_v3(
             num_labels=2, img_size=224, patch_size=16, hidden_dim=512, model_variant='s',

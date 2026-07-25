@@ -11,12 +11,12 @@ logs, result CSVs, and generated figures are intentionally excluded.
 ## What Is Included
 
 - `main_proposal.py`: original proposal comparison loop for field-like classes.
-- `main_ablation.py`: explicit ablation runner for baseline, P-SPGA variants,
-  M3 attention pooling, and domain-transform variants.
+- `main_ablation.py`: explicit ablation runner for the EfficientNetV2
+  baseline, P-SPGA variants, and domain-transform variants.
 - `models/p_spga_block.py`: standalone P-SPGA block implementation.
 - `models/efficientnetv2_P1.py`: EfficientNetV2 baseline and P-SPGA model.
-- `models/efficientnetv2_m3.py`: M3 attention-pooling variant.
-- `models/`: legacy comparison model files kept for reproducibility.
+- `models/`: EfficientNetV2 baseline/proposal code and the standalone P-SPGA
+  block.
 - `utils/`: binary dataloader, metrics, plots, and training loop.
 - `run.sh`: four field-like classes with the proposal loop.
 - `run_a.sh`: explicit ablation set over the selected class list.
@@ -85,7 +85,6 @@ python -u main_ablation.py \
 | `A3` | `A3_chunk_multiscale_s01` | chunked multiscale branch without learnable attention |
 | `A4` | `A4_stat_learnable` | statistical prior + learnable attention |
 | `A5` | `A5_chunk_full_s01` | final P-SPGA variant |
-| `M3` | `M3_pspga_attnpool` | A5 plus latent attention pooling |
 | `DT` | `DT_pspga_domain_blur` | A5 with stronger Y-channel domain blur |
 | `A5DT` | `A5_DTL_chunk_full_s01_domain_blur_k3_s04` | A5 with light Y-channel domain blur |
 

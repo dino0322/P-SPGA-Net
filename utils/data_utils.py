@@ -7,7 +7,6 @@ import numpy as np
 from sklearn.metrics import roc_curve, auc 
 import pandas as pd  
 import matplotlib.pyplot as plt  
-##from keras.utils import to_categorical # type: ignore[import] 
 from sklearn.preprocessing import label_binarize
 import seaborn as sns
 from sklearn.metrics import confusion_matrix
