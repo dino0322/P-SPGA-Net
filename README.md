@@ -1,9 +1,10 @@
 # P-SPGA Net
 
-P-SPGA Net is a PyTorch research codebase for binary plant disease image
-classification. The main proposal adds a compact P-SPGA block to an
-EfficientNetV2-style backbone and evaluates it against the baseline and
-ablation variants.
+P-SPGA Net (Plant-aware Statistical Prior-Guided Attention Network) is a
+PyTorch research codebase for binary plant disease image classification. The
+main proposal adds a compact plant-aware statistical prior-guided attention
+block to an EfficientNetV2-style backbone and evaluates it against the baseline
+and ablation variants.
 
 This upload package contains source code only. Datasets, trained weights,
 logs, result CSVs, and generated figures are intentionally excluded.
@@ -90,8 +91,8 @@ python -u main_ablation.py \
 
 In the reported experiments, the statistical prior and learnable spatial
 attention are fused with a fixed alpha value when the model is called from the
-training loop. Epoch-aware progressive alpha scheduling is intentionally left
-as follow-up work so the released code stays aligned with the reported local
+training loop. Epoch-aware dynamic alpha scheduling is intentionally left as
+follow-up work so the released code stays aligned with the reported local
 results.
 
 `run_a.sh` defaults to `B0,A0,A1,A2,A3,A5`. Override it with:
