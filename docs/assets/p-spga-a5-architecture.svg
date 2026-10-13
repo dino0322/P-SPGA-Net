@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1460" viewBox="0 0 1500 1460"><defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="#64748b"/></marker></defs><rect width="1500" height="1460" fill="#f8fafc"/>
+<text x="60" y="65" font-family="Arial, sans-serif" font-size="38" fill="#172b45" text-anchor="start" font-weight="700">P-SPGA Net</text>
+<text x="60" y="100" font-family="Arial, sans-serif" font-size="23" fill="#52647b" text-anchor="start" font-weight="400">A5 architecture · EfficientNetV2-S + chunked statistical prior-guided attention</text>
+<text x="60" y="153" font-family="Arial, sans-serif" font-size="18" fill="#167d87" text-anchor="start" font-weight="700">01  IMAGE CLASSIFICATION PIPELINE</text>
+<rect x="60" y="178" width="200" height="120" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="160.0" y="232.5" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="600">Input image</text>
+<text x="160.0" y="257.5" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="400">B × 3 × 224 × 224</text>
+<rect x="300" y="178" width="250" height="120" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="425.0" y="220.0" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="600">EfficientNetV2-S</text>
+<text x="425.0" y="245.0" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="400">Stem + 6 stages</text>
+<text x="425.0" y="270.0" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="400">B × 256 × 7 × 7</text>
+<rect x="590" y="178" width="235" height="120" rx="12" fill="#e6f5f4" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="707.5" y="220.0" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="600">P-SPGA block</text>
+<text x="707.5" y="245.0" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="400">A5 · residual scale 0.1</text>
+<text x="707.5" y="270.0" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="400">B × 256 × 7 × 7</text>
+<rect x="865" y="178" width="255" height="120" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="992.5" y="220.0" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="600">1×1 Conv + BN + SiLU</text>
+<text x="992.5" y="245.0" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="400">Global average pool</text>
+<text x="992.5" y="270.0" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="400">Flatten → B × 1280</text>
+<rect x="1160" y="178" width="280" height="120" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="1300.0" y="220.0" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="600">Classification head</text>
+<text x="1300.0" y="245.0" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="400">LN → FC 512 → GELU</text>
+<text x="1300.0" y="270.0" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="400">Dropout 0.1 → FC 2</text>
+<polyline points="260,238 292,238" fill="none" stroke="#64748b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<polyline points="550,238 582,238" fill="none" stroke="#64748b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<polyline points="825,238 857,238" fill="none" stroke="#64748b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<polyline points="1120,238 1152,238" fill="none" stroke="#64748b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<text x="60" y="340" font-family="Arial, sans-serif" font-size="18" fill="#167d87" text-anchor="start" font-weight="700">02  P-SPGA BLOCK DETAIL</text>
+<rect x="60" y="365" width="1380" height="980" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="1.5"/>
+<rect x="560" y="395" width="380" height="64" rx="12" fill="#edf2f7" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="750.0" y="434.0" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="600">Input feature X · B × C × H × W</text>
+<polyline points="750,459 750,491" fill="none" stroke="#64748b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<rect x="560" y="500" width="380" height="55" rx="12" fill="#e6f5f4" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="750.0" y="534.5" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="600">Split channels into 4 chunks</text>
+<polyline points="750,555 750,575 300,575 300,595" fill="none" stroke="#64748b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<polyline points="750,555 750,575 600,575 600,595" fill="none" stroke="#64748b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<polyline points="750,555 750,575 900,575 900,595" fill="none" stroke="#64748b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<polyline points="750,555 750,575 1200,575 1200,595" fill="none" stroke="#64748b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<rect x="150" y="602" width="280" height="75" rx="12" fill="#e6f5f4" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="290.0" y="634.0" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="600">Identity</text>
+<text x="290.0" y="659.0" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="400">C / 4</text>
+<rect x="450" y="602" width="280" height="75" rx="12" fill="#e6f5f4" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="590.0" y="634.0" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="600">DSConv 3×3</text>
+<text x="590.0" y="659.0" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="400">C / 4</text>
+<rect x="750" y="602" width="280" height="75" rx="12" fill="#e6f5f4" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="890.0" y="634.0" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="600">DSConv 5×5</text>
+<text x="890.0" y="659.0" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="400">C / 4</text>
+<rect x="1050" y="602" width="280" height="75" rx="12" fill="#e6f5f4" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="1190.0" y="634.0" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="600">DSConv 3×3, dilation 3</text>
+<text x="1190.0" y="659.0" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="400">C / 4</text>
+<polyline points="290,677 290,700 750,700 750,720" fill="none" stroke="#64748b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<polyline points="590,677 590,700 750,700 750,720" fill="none" stroke="#64748b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<polyline points="890,677 890,700 750,700 750,720" fill="none" stroke="#64748b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<polyline points="1190,677 1190,700 750,700 750,720" fill="none" stroke="#64748b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<rect x="435" y="728" width="630" height="84" rx="12" fill="#e6f5f4" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="750.0" y="764.5" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="600">Concatenate → BN → channel mixer</text>
+<text x="750.0" y="789.5" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="400">1×1 Conv C→2C → GELU → 1×1 Conv 2C→C → BN</text>
+<polyline points="750,812 750,839" fill="none" stroke="#64748b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<rect x="430" y="846" width="640" height="100" rx="12" fill="#eef0ff" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="750.0" y="878.0" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="600">Statistical channel gate</text>
+<text x="750.0" y="903.0" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="400">Spatial mean / std / range → concat → MLP → sigmoid</text>
+<text x="750.0" y="928.0" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="400">F₂ = F₁ ⊙ g   ·   g: B × C × 1 × 1</text>
+<polyline points="750,946 750,972 350,972 350,990" fill="none" stroke="#64748b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<polyline points="750,946 750,972 1120,972 1120,990" fill="none" stroke="#64748b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<rect x="110" y="998" width="480" height="99" rx="12" fill="#fff5e6" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="350.0" y="1029.5" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="600">Statistical spatial prior Ps</text>
+<text x="350.0" y="1054.5" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="400">Channel mean / std / max → concat</text>
+<text x="350.0" y="1079.5" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="400">7×7 Conv 3→1 → sigmoid</text>
+<rect x="880" y="998" width="480" height="99" rx="12" fill="#fff5e6" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="1120.0" y="1017.0" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="600">Learnable spatial attention Al</text>
+<text x="1120.0" y="1042.0" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="400">Channel mean / std / max → concat</text>
+<text x="1120.0" y="1067.0" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="400">3×3 Conv 3→8 → BN → GELU</text>
+<text x="1120.0" y="1092.0" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="400">7×7 Conv 8→1 → sigmoid</text>
+<polyline points="350,1097 350,1120 750,1120 750,1134" fill="none" stroke="#64748b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<polyline points="1120,1097 1120,1120 750,1120 750,1134" fill="none" stroke="#64748b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<rect x="470" y="1142" width="560" height="64" rx="12" fill="#fff5e6" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="750.0" y="1168.5" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="600">Fused attention A = 0.5 Ps + 0.5 Al</text>
+<text x="750.0" y="1193.5" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="400">B × 1 × H × W</text>
+<polyline points="750,1206 750,1237" fill="none" stroke="#64748b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<rect x="470" y="1245" width="560" height="65" rx="12" fill="#d9f1ec" stroke="#29998a" stroke-width="1.5"/>
+<text x="750.0" y="1272.0" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="600">Output Y = X + 0.1 × (F₂ ⊙ A)</text>
+<text x="750.0" y="1297.0" font-family="Arial, sans-serif" font-size="20" fill="#172b45" text-anchor="middle" font-weight="400">B × C × H × W</text>
+<polyline points="560,427 85,427 85,1277 462,1277" fill="none" stroke="#64748b" stroke-width="2.2" marker-end="url(#arrow)" stroke-dasharray="7 5"/>
+<text x="105" y="1215" font-family="Arial, sans-serif" font-size="18" fill="#64748b" text-anchor="start" font-weight="400">Residual X</text>
+<polyline points="1070,896 1400,896 1400,1277 1038,1277" fill="none" stroke="#64748b" stroke-width="2.2" marker-end="url(#arrow)" stroke-dasharray="7 5"/>
+<text x="1160" y="1230" font-family="Arial, sans-serif" font-size="18" fill="#64748b" text-anchor="start" font-weight="400">Gated feature F₂</text>
+<text x="60" y="1382" font-family="Arial, sans-serif" font-size="19" fill="#172b45" text-anchor="start" font-weight="400">DSConv = depthwise Conv → pointwise Conv → BN → GELU.   ⊙ = element-wise multiplication (broadcast).</text>
+<text x="60" y="1414" font-family="Arial, sans-serif" font-size="19" fill="#52647b" text-anchor="start" font-weight="400">Shown: A5 in main_ablation.py. C=256, H=W=7 for 224×224 input. The released training loop uses α=0.5.</text>
+</svg>

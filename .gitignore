@@ -50,3 +50,5 @@ Thumbs.db
 .idea/
 .vscode/
 
+# Documentation architecture diagram
+!docs/assets/p-spga-a5-architecture.png

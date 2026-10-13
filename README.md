@@ -7,7 +7,33 @@ block to an EfficientNetV2-style backbone and evaluates it against the baseline
 and ablation variants.
 
 This upload package contains source code only. Datasets, trained weights,
-logs, result CSVs, and generated figures are intentionally excluded.
+logs, result CSVs, and experiment-generated figures are intentionally excluded.
+
+## Architecture
+
+![P-SPGA Net A5 architecture](docs/assets/p-spga-a5-architecture.png)
+
+[View the scalable SVG](docs/assets/p-spga-a5-architecture.svg).
+
+The diagram shows **A5**, the final variant configured in
+[`main_ablation.py`](main_ablation.py): EfficientNetV2-S features pass through
+P-SPGA before the 1×1 bottleneck, global average pooling, and binary classifier.
+For a 224×224 input, the P-SPGA feature map is `B × 256 × 7 × 7`.
+
+- **Chunked multi-scale branch:** split channels into four equal groups, apply
+  identity / 3×3 / 5×5 / dilated 3×3 operations, concatenate, and mix channels.
+- **Statistical channel gate:** use spatial mean, standard deviation, and range
+  to reweight channels with an MLP and sigmoid.
+- **Spatial attention:** combine a statistical prior and a learnable refinement,
+  both computed from channel-wise mean, standard deviation, and maximum maps.
+- **Residual fusion:** `Y = X + 0.1 * (F2 * A)`, with broadcast spatial attention.
+  The released training loop uses `A = 0.5 * Ps + 0.5 * Al` because it calls the
+  model without an epoch argument.
+
+Implementation: [`PSPGABlock`](models/p_spga_block.py) and
+[`EfficientNetV2ForImageClassification_v3`](models/efficientnetv2_P1.py).
+The diagram is specific to A5 (`branch_type='chunk'`, `residual_scale=0.1`);
+other ablation variants selectively disable or replace these components.
 
 ## What Is Included
 
